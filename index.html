@@ -11,10 +11,21 @@
             font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100vh; margin: 0; color: var(--color-principal); text-align: center;
+            overflow: hidden; /* Importante para que no salgan barras de scroll */
+            position: relative; /* Para que los pétalos se posicionen respecto a body */
         }
+        
+        /* --- ESTILOS DEL CONTADOR Y MENSAJE --- */
+        .contenedor-principal {
+            position: relative;
+            z-index: 10; /* Asegura que el texto esté SOBRE los pétalos */
+            padding: 20px;
+        }
+        
         .unidad { 
             display: inline-block; margin: 10px; padding: 15px; 
-            background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            background: rgba(255, 255, 255, 0.9); /* Un poco transparente */
+            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             min-width: 70px;
         }
         span { font-size: 2.5rem; font-weight: bold; display: block; }
@@ -25,31 +36,55 @@
             cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- ESTILOS DE LOS PÉTALOS (CSS Particle System) --- */
+        .petalo {
+            position: absolute;
+            background: #ff4081; /* Color rosa intenso */
+            border-radius: 50% 0 50% 50%; /* Forma de pétalo */
+            opacity: 0.8;
+            pointer-events: none; /* No interfieren con clics */
+            animation: lluvia linear infinite;
+        }
+
+        @keyframes lluvia {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.2; /* Se desvanecen al llegar abajo */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="pantalla-contador">
-        <h1>Falta poco para nuestro momento...</h1>
-        <div id="timer">
-            <div class="unidad"><span id="d">0</span>Días</div>
-            <div class="unidad"><span id="h">0</span>Hs</div>
-            <div class="unidad"><span id="m">0</span>Min</div>
-            <div class="unidad"><span id="s">0</span>Seg</div>
+    <div class="contenedor-principal">
+        <div id="pantalla-contador">
+            <h1>Falta poco para nuestro momento...</h1>
+            <div id="timer">
+                <div class="unidad"><span id="d">0</span>Días</div>
+                <div class="unidad"><span id="h">0</span>Hs</div>
+                <div class="unidad"><span id="m">0</span>Min</div>
+                <div class="unidad"><span id="s">0</span>Seg</div>
+            </div>
         </div>
-    </div>
 
-    <div id="pantalla-final" style="display:none;">
-        <h1>¡Llegó el día especial!</h1>
-        <button class="boton" onclick="revelar()">Abrir mi sorpresa</button>
-        <div id="mensaje-oculto">
-            <p style="font-size: 1.3rem;">Aquí va tu mensaje: "Te amo mucho"</p>
-            <img src="https://via.placeholder.com/150" alt="Nosotros" style="border-radius: 50%; margin-top: 20px;">
+        <div id="pantalla-final" style="display:none;">
+            <h1>¡Llegó el día especial!</h1>
+            <button class="boton" onclick="revelar()">Abrir mi sorpresa</button>
+            <div id="mensaje-oculto">
+                <p style="font-size: 1.3rem;">Aquí va tu mensaje: "Te amo mucho"</p>
+                <img src="https://via.placeholder.com/150" alt="Nosotros" style="border-radius: 50%; margin-top: 20px;">
+            </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN TÉCNICA (Usa formato en inglés: Month Day, Year)
+        // CONFIGURACIÓN TÉCNICA
+        // Mantengo la fecha de abril para que pruebes los pétalos
         const fechaMeta = new Date('April 3, 2026 00:00:00').getTime();
 
         const check = setInterval(() => {
@@ -71,6 +106,38 @@
         function revelar() {
             document.getElementById('mensaje-oculto').style.display = 'block';
         }
+
+        // --- SISTEMA DE PÉTALOS CON JAVASCRIPT ---
+        function crearPetalo() {
+            const petalo = document.createElement('div');
+            petalo.classList.add('petalo');
+            
+            // Posición horizontal aleatoria
+            petalo.style.left = Math.random() * 100 + 'vw';
+            
+            // Tamaño aleatorio (entre 10 y 20px)
+            const tamaño = Math.random() * 10 + 10 + 'px';
+            petalo.style.width = tamaño;
+            petalo.style.height = tamaño;
+            
+            // Duración de la caída aleatoria (entre 5 y 10s)
+            petalo.style.animationDuration = Math.random() * 5 + 5 + 's';
+            
+            // Retraso de inicio aleatorio para que no caigan todos a la vez
+            petalo.style.animationDelay = Math.random() * 5 + 's';
+
+            document.body.appendChild(petalo);
+
+            // Eliminar el pétalo después de que termina la animación para no saturar la memoria
+            setTimeout(() => {
+                petalo.remove();
+            }, 10000); // 10 segundos coincide con la duración máxima
+        }
+
+        // Generar pétalos continuamente
+        // Crea un pétalo nuevo cada 300 milisegundos
+        setInterval(crearPetalo, 300); 
+
     </script>
 </body>
 </html>
