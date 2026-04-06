@@ -5,55 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para mi novia ❤️</title>
     <style>
-        :root { --pinc: #d81b60; --bg: #fce4ec; }
+        :root { --c1: #d81b60; --b1: #fce4ec; }
         body { 
-            background: linear-gradient(135deg, var(--bg) 0%, #f8bbd0 100%);
+            background: linear-gradient(135deg, var(--b1) 0%, #f8bbd0 100%);
             font-family: 'Segoe UI', sans-serif;
             display: flex; align-items: center; justify-content: center;
-            height: 100vh; margin: 0; color: var(--pinc); text-align: center;
+            height: 100vh; margin: 0; color: var(--c1); text-align: center;
             overflow: hidden; position: relative;
         }
-        .main-box { z-index: 100; position: relative; padding: 20px; }
-        .unidad { 
+        .xbox1 { z-index: 100; position: relative; padding: 20px; }
+        .xuni1 { 
             display: inline-block; margin: 8px; padding: 12px; 
             background: rgba(255, 255, 255, 0.9); border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); min-width: 60px;
         }
         span { font-size: 2rem; font-weight: bold; display: block; }
-        .boton {
-            background: var(--pinc); color: white; border: none;
+        .xbtn1 {
+            background: var(--c1); color: white; border: none;
             padding: 12px 25px; border-radius: 20px; font-size: 1.1rem;
             cursor: pointer; margin-top: 15px;
         }
         
-        /* --- FÍSICA DE LOS PÉTALOS CORREGIDA --- */
-        .p_anim {
-            position: absolute; 
-            background: #ff4081; /* Rosa Intenso */
-            border-radius: 50% 0 50% 50%; /* Forma de pétalo */
-            opacity: 0; /* Empiezan invisibles */
+        /* FÍSICA DE PÉTALOS INQUEBRANTABLE */
+        .xp1 {
+            position: absolute !important; /* Fuerza bruta de posición */
+            top: -20vh !important; /* Fuerza bruta de inicio ARRIBA */
+            background: #ff4081; 
+            border-radius: 50% 0 50% 50%; 
+            opacity: 0; 
             pointer-events: none; 
-            z-index: 1; /* Por detrás del texto */
+            z-index: 1; 
             
-            /* Nombre de la animación, duración por defecto, tipo de curva, dirección */
-            animation-name: fall;
+            animation-name: xa1 !important; /* Fuerza bruta de animación */
             animation-timing-function: linear;
-            animation-fill-mode: forwards; /* Se quedan con los valores finales */
+            animation-fill-mode: forwards; 
         }
         
-        @keyframes fall {
+        @keyframes xa1 {
             0% { 
-                /* EMPIEZA: Fuera de pantalla arriba, sin rotar, invisible */
-                transform: translateY(-15vh) rotate(0deg); 
+                transform: translateY(0vh) rotate(0deg); 
                 opacity: 0; 
             }
-            10% {
-                /* Se vuelven visibles rápido al entrar */
-                opacity: 0.8;
-            }
+            10% { opacity: 0.8; }
             100% { 
-                /* TERMINA: Fuera de pantalla abajo, rotando 360 grados, invisible */
-                transform: translateY(115vh) rotate(360deg); 
+                /* Caen hasta el final de la pantalla */
+                transform: translateY(130vh) rotate(360deg); 
                 opacity: 0; 
             }
         }
@@ -61,21 +57,21 @@
 </head>
 <body>
 
-    <div class="main-box">
-        <div id="c-cnt">
+    <div class="xbox1">
+        <div id="xcnt1">
             <h1>Falta poco...</h1>
             <div>
-                <div class="unidad"><span id="d">0</span>Días</div>
-                <div class="unidad"><span id="h">0</span>Hs</div>
-                <div class="unidad"><span id="m">0</span>Min</div>
-                <div class="unidad"><span id="s">0</span>Seg</div>
+                <div class="xuni1"><span id="d">0</span>Días</div>
+                <div class="xuni1"><span id="h">0</span>Hs</div>
+                <div class="xuni1"><span id="m">0</span>Min</div>
+                <div class="xuni1"><span id="s">0</span>Seg</div>
             </div>
         </div>
 
-        <div id="c-fin" style="display:none;">
+        <div id="xfin1" style="display:none;">
             <h1>¡Llegó el día especial!</h1>
-            <button class="boton" onclick="show()">Abrir mi sorpresa</button>
-            <div id="m-ok" style="display:none; margin-top:20px;">
+            <button class="xbtn1" onclick="xsh1()">Abrir mi sorpresa</button>
+            <div id="xmok1" style="display:none; margin-top:20px;">
                 <p>Te amo mucho ❤️</p>
                 <img src="https://via.placeholder.com/100" style="border-radius:50%">
             </div>
@@ -83,55 +79,52 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE FECHA (Mantenemos abril para probar)
-        const end = new Date('April 3, 2026 00:00:00').getTime();
+        // CONFIGURACIÓN DE FECHA (Cambia esto cuando termines las pruebas)
+        const xend1 = new Date('April 3, 2026 00:00:00').getTime();
 
         setInterval(() => {
-            const now = new Date().getTime();
-            const d = end - now;
-            if (d <= 0) {
-                document.getElementById('c-cnt').style.display = 'none';
-                document.getElementById('c-fin').style.display = 'block';
+            const xnow1 = new Date().getTime();
+            const xd1 = xend1 - xnow1;
+            if (xd1 <= 0) {
+                document.getElementById('xcnt1').style.display = 'none';
+                document.getElementById('xfin1').style.display = 'block';
             } else {
-                document.getElementById('d').innerText = Math.floor(d / 864e5);
-                document.getElementById('h').innerText = Math.floor((d % 864e5) / 36e5);
-                document.getElementById('m').innerText = Math.floor((d % 36e5) / 6e4);
-                document.getElementById('s').innerText = Math.floor((d % 6e4) / 1000);
+                document.getElementById('d').innerText = Math.floor(xd1 / 864e5);
+                document.getElementById('h').innerText = Math.floor((xd1 % 864e5) / 36e5);
+                document.getElementById('m').innerText = Math.floor((xd1 % 36e5) / 6e4);
+                document.getElementById('s').innerText = Math.floor((xd1 % 6e4) / 1000);
             }
         }, 1000);
 
-        function show() { document.getElementById('m-ok').style.display = 'block'; }
+        function xsh1() { document.getElementById('xmok1').style.display = 'block'; }
 
-        // --- GENERADOR DE LLUVIA DE PÉTALOS CORREGIDO ---
-        function rain() {
-            const p = document.createElement('div');
-            p.className = 'p_anim';
+        // GENERADOR DE LLUVIA INQUEBRANTABLE
+        function xrn1() {
+            const xp = document.createElement('div');
+            xp.className = 'xp1';
             
-            // 1. Posición horizontal aleatoria (0 a 100% del ancho)
-            p.style.left = (Math.random() * 100) + "vw";
+            // Posición horizontal aleatoria
+            xp.style.left = (Math.random() * 100) + "vw";
             
-            // 2. Tamaño aleatorio pero visible (entre 12 y 25px)
-            const sizeValue = Math.random() * 13 + 12;
-            p.style.width = sizeValue + "px";
-            p.style.height = sizeValue + "px";
+            // Tamaño aleatorio y visible
+            const xs1 = Math.random() * 13 + 12;
+            xp.style.width = xs1 + "px";
+            xp.style.height = xs1 + "px";
             
-            // 3. Duración de la caída aleatoria y LENTA (entre 6 y 12 segundos)
-            // Esto hace que caigan desde arriba de verdad
-            const duration = (Math.random() * 6 + 6);
-            p.style.animationDuration = duration + "s";
+            // Duración lenta y aleatoria (entre 7 y 14 segundos)
+            xp.style.animationDuration = (Math.random() * 7 + 7) + "s";
             
-            // 4. Retraso aleatorio para dispersar la lluvia
-            p.style.animationDelay = (Math.random() * 5) + "s";
+            // Retraso aleatorio
+            xp.style.animationDelay = (Math.random() * 5) + "s";
 
-            document.body.appendChild(p);
+            document.body.appendChild(xp);
             
-            // Importante: Eliminar el pétalo DESPUÉS de que termine su animación lenta
-            // Usamos la duración máxima + el delay máximo (12 + 5 = 17s)
-            setTimeout(() => p.remove(), 17000);
+            // Eliminar después de 20s para asegurar que terminó la animación
+            setTimeout(() => xp.remove(), 20000);
         }
         
-        // Crear un pétalo nuevo cada 400ms para mantener una lluvia constante
-        setInterval(rain, 400);
+        // Crear un pétalo cada 400ms
+        setInterval(xrn1, 400);
     </script>
 </body>
 </html>
