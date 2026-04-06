@@ -5,106 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Mi Niña ❤️</title>
     <style>
-        /* --- ESTILOS BASE Y FONDO --- */
         body {
-            background-color: #ffebf0; /* Rosa muy pálido */
+            background-color: #ffebf0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             color: #d63384;
-            overflow: hidden; /* Crucial para la lluvia */
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* --- ESTILOS DE LA LLUVIA DE CORAZONES (CSS) --- */
+        /* --- LLUVIA DE CORAZONES --- */
         .heart-rain {
-            position: fixed; /* Fixed para que cubra todo el viewport */
-            top: -50px; /* Empieza un poco arriba de la pantalla */
+            position: fixed;
+            top: -50px;
             user-select: none;
-            z-index: 0; /* Por detrás del contenido */
-            pointer-events: none; /* No interfieren con los clics */
-            animation: fall linear forwards; /* 'forwards' para que se queden al final antes de ser borrados */
+            z-index: 0;
+            pointer-events: none;
+            animation: fall linear forwards;
         }
+        @keyframes fall { to { transform: translateY(calc(100vh + 100px)) rotate(360deg); } }
 
-        @keyframes fall {
-            to {
-                transform: translateY(calc(100vh + 100px)) rotate(360deg); /* Caen hasta pasar el fondo */
-            }
-        }
-
-        /* --- CONTENEDOR PRINCIPAL (Z-INDEX ALTO) --- */
+        /* --- CONTENEDOR --- */
         .main-container {
-            background: rgba(255, 255, 255, 0.95); /* Un toque de transparencia */
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(214, 51, 132, 0.15);
             text-align: center;
-            z-index: 10; /* Por encima de la lluvia */
-            max-width: 90%;
+            z-index: 10;
+            max-width: 85%;
+            width: 400px;
             border: 1px solid #f8bbd0;
-            backdrop-filter: blur(2px); /* Efecto esmerilado suave */
+            backdrop-filter: blur(2px);
+            margin: 20px;
         }
 
-        h1 { font-size: 1.6rem; margin-bottom: 25px; margin-top: 0; }
+        h1 { font-size: 1.4rem; margin-bottom: 20px; }
 
-        /* --- ESTILOS DEL CONTADOR --- */
-        #countdown {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
+        /* --- CONTADOR --- */
+        #countdown { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+        .time-box { background: #fff0f5; padding: 8px; border-radius: 10px; min-width: 55px; border: 1px solid #f8bbd0; }
+        .number { font-size: 1.6rem; font-weight: bold; color: #ad1457; display: block; }
+        .label { font-size: 0.6rem; text-transform: uppercase; color: #880e4f; }
 
-        .time-box {
-            background: #fff0f5;
-            padding: 10px;
-            border-radius: 10px;
-            min-width: 60px;
-            border: 1px solid #f8bbd0;
-        }
-
-        .number { font-size: 2rem; font-weight: bold; color: #ad1457; display: block; }
-        .label { font-size: 0.7rem; text-transform: uppercase; color: #880e4f; }
-
-        /* --- ESTILOS DEL BOTÓN --- */
+        /* --- BOTÓN --- */
         #btn-abrir {
             background-color: #d63384; 
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
-            display: none; /* Oculto por defecto */
-            margin: 0 auto;
+            color: white; border: none; padding: 15px 30px;
+            font-size: 1.1rem; font-weight: bold; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+            display: none; margin: 0 auto;
         }
 
-        #btn-abrir:active { transform: scale(0.95); background-color: #ad1457; }
-
-        /* --- ESTILOS DE LA FRASE FINAL --- */
-        #frase-final {
-            display: none; /* Oculta por defecto */
-            font-size: 1.3rem;
-            line-height: 1.6;
-            color: #ad1457;
-            font-style: italic;
-            margin-top: 20px;
-            animation: fadeIn 1.5s;
+        /* --- CARRUSEL DE FOTOS --- */
+        #detalle-final { display: none; animation: fadeIn 1.5s; }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #f8bbd0;
         }
+        .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; }
+
+        .frase { font-size: 1.1rem; line-height: 1.5; color: #ad1457; font-style: italic; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     </style>
 </head>
 <body>
 
     <div id="pista-lluvia"></div>
+
+    <audio id="miMusica" src="musica.mp3" loop></audio>
 
     <div class="main-container">
         
@@ -120,103 +100,80 @@
 
         <button id="btn-abrir">Abrir mi detalle ❤️</button>
 
-        <div id="frase-final">
-            "Eres mi casualidad más bonita. <br>
-            Gracias por cada segundo a mi lado.<br>
-            Te amo infinitamente. ❤️"
+        <div id="detalle-final">
+            <div class="slideshow-container">
+                <img src="img/foto1.jpg" class="mySlides">
+                <img src="img/foto2.jpg" class="mySlides">
+                <img src="img/foto3.jpg" class="mySlides">
+            </div>
+            <div class="frase">
+                "Dos años de momentos increíbles... <br>
+                Eres lo mejor que me ha pasado. ❤️"
+            </div>
         </div>
 
     </div>
 
     <script>
-        /**
-         * LÓGICA DE LA LLUVIA ALEATORIA DE CORAZONES (JS)
-         */
+        // Lógica de Lluvia
         function crearCorazon() {
-            const contenedor = document.getElementById('pista-lluvia');
-            const corazon = document.createElement('div');
-            corazon.classList.add('heart-rain');
-            
-            // Variedad de símbolos de corazones
-            const simbolos = ['❤', '♥', '❣'];
-            corazon.innerText = simbolos[Math.floor(Math.random() * simbolos.length)];
-            
-            // --- ALEATORIEDAD ---
-            // 1. Posición horizontal (de 0% a 100% del ancho)
-            corazon.style.left = Math.random() * 100 + "vw";
-            
-            // 2. Tamaño aleatorio (entre 15px y 35px)
-            const size = (Math.random() * 20 + 15) + "px";
-            corazon.style.fontSize = size;
-            
-            // 3. Duración de la caída aleatoria (entre 3s y 8s)
-            const duration = (Math.random() * 5 + 3) + "s";
-            corazon.style.animationDuration = duration;
-            
-            // 4. Opacidad aleatoria (para dar profundidad)
-            corazon.style.opacity = Math.random() * 0.5 + 0.3; // Entre 0.3 y 0.8
-            
-            // 5. Color aleatorio (variaciones de rosa/rojo)
-            const colores = ['#ff69b4', '#ff1493', '#db7093', '#d63384'];
-            corazon.style.color = colores[Math.floor(Math.random() * colores.length)];
-
-            contenedor.appendChild(corazon);
-            
-            // --- INGENIERÍA DE LIMPIEZA DE MEMORIA ---
-            // Borramos el elemento del DOM una vez que termina su animación
-            // Usamos parseFloat para convertir la duración (ej: "5.3s") en milisegundos
-            setTimeout(() => {
-                corazon.remove();
-            }, parseFloat(duration) * 1000);
+            const cont = document.getElementById('pista-lluvia');
+            const c = document.createElement('div');
+            c.classList.add('heart-rain');
+            c.innerText = '❤';
+            c.style.left = Math.random() * 100 + "vw";
+            const dur = (Math.random() * 5 + 3) + "s";
+            c.style.animationDuration = dur;
+            c.style.fontSize = (Math.random() * 20 + 15) + "px";
+            cont.appendChild(c);
+            setTimeout(() => { c.remove(); }, parseFloat(dur) * 1000);
         }
+        let lluviaInterval = setInterval(crearCorazon, 300);
 
-        // Creamos un corazón nuevo cada 300ms (ajusta esto si quieres más o menos lluvia)
-        setInterval(crearCorazon, 300);
-
-
-        /**
-         * LÓGICA DEL CONTADOR (Igual que antes, modo prueba activado)
-         */
-        
-        // Objetivo real: 5 de Abril de 2027 (Pon una fecha futura para ver el contador)
-        // const targetDate = new Date(2027, 3, 5, 0, 0, 0).getTime();
-
-        // MODO PRUEBA: Termina en 10 segundos
-        const targetDate = new Date().getTime() + 10000; 
+        // Lógica de Contador
+        const targetDate = new Date().getTime() + 5000; // MODO PRUEBA (5 seg)
 
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = targetDate - now;
-
             if (diff <= 0) {
                 document.getElementById('seccion-contador').style.display = 'none';
                 document.getElementById('btn-abrir').style.display = 'block';
                 return; 
             }
-
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = d;
-            document.getElementById('hours').innerText = h;
-            document.getElementById('minutes').innerText = m;
-            document.getElementById('seconds').innerText = s;
+            document.getElementById('days').innerText = Math.floor(diff / 86400000);
+            document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+            document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+            document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
         }
+        setInterval(updateCountdown, 1000);
 
+        // Lógica del Botón (Música + Fotos)
         document.getElementById('btn-abrir').addEventListener('click', function() {
             this.style.display = 'none';
-            document.getElementById('frase-final').style.display = 'block';
+            document.getElementById('detalle-final').style.display = 'block';
             
-            // Opcional: Aumentar la lluvia al abrir (Ingeniería de eventos)
-            // Cambiamos el intervalo a 50ms (muchos más corazones)
+            // Reproducir música
+            const audio = document.getElementById('miMusica');
+            audio.play().catch(e => console.log("Error audio:", e));
+            
+            // Iniciar Carrusel
+            showSlides();
+            
+            // Intensificar lluvia
             clearInterval(lluviaInterval);
-            lluviaInterval = setInterval(crearCorazon, 50);
+            lluviaInterval = setInterval(crearCorazon, 80);
         });
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        let slideIndex = 0;
+        function showSlides() {
+            let slides = document.getElementsByClassName("mySlides");
+            for (let i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 3000); // Cambia foto cada 3 segundos
+        }
     </script>
 </body>
 </html>
