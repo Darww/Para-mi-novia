@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para la mejor novia</title>
+    <title>Nuestro Aniversario ❤️</title>
     <style>
+        /* Estilos minimalistas y románticos */
         body {
             background-color: #ffebf0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,55 +17,113 @@
             margin: 0;
             color: #d63384;
         }
-        h1 { font-size: 1.5rem; margin-bottom: 20px; }
+
+        h1 { 
+            font-size: 1.8rem; 
+            margin-bottom: 30px; 
+            text-align: center;
+            padding: 0 20px;
+        }
+
         #countdown {
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
+
         .time-box {
             background: white;
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            min-width: 60px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(214, 51, 132, 0.1);
+            min-width: 70px;
             text-align: center;
+            border: 1px solid #f8bbd0;
         }
-        .number { font-size: 2rem; font-weight: bold; display: block; }
-        .label { font-size: 0.8rem; text-transform: uppercase; }
+
+        .number { 
+            font-size: 2.2rem; 
+            font-weight: bold; 
+            display: block; 
+            color: #ad1457;
+        }
+
+        .label { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            color: #880e4f;
+        }
+
+        /* Mensaje final oculto */
+        #mensaje-final {
+            display: none;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            animation: latido 1.5s infinite;
+        }
+
+        @keyframes latido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
-    <h1>Faltan para nuestro aniversario:</h1>
-
-    <div id="countdown">
-        <div class="time-box"><span class="number" id="days">0</span><span class="label">Días</span></div>
-        <div class="time-box"><span class="number" id="hours">0</span><span class="label">Hrs</span></div>
-        <div class="time-box"><span class="number" id="minutes">0</span><span class="label">Min</span></div>
-        <div class="time-box"><span class="number" id="seconds">0</span><span class="label">Seg</span></div>
+    <div id="contenedor-contador">
+        <h1>Faltan para nuestro aniversario:</h1>
+        <div id="countdown">
+            <div class="time-box"><span class="number" id="days">0</span><span class="label">Días</span></div>
+            <div class="time-box"><span class="number" id="hours">0</span><span class="label">Hrs</span></div>
+            <div class="time-box"><span class="number" id="minutes">0</span><span class="label">Min</span></div>
+            <div class="time-box"><span class="number" id="seconds">0</span><span class="label">Seg</span></div>
+        </div>
     </div>
 
+    <div id="mensaje-final">¡Feliz Aniversario! ❤️</div>
+
     <script>
-        // CAMBIA LA FECHA AQUÍ (Año, Mes - 1, Día)
-        // Ejemplo: 15 de Mayo de 2026 -> (2026, 3, 3)
-        const targetDate = new Date(2026, 3, 3).getTime();
+        /**
+         * CONFIGURACIÓN DE FECHA
+         * Recordatorio para el ingeniero:
+         * Enero=0, Feb=1, Mar=2, Abr=3, May=4...
+         */
+        
+        // Objetivo: 5 de Abril de 2027 (o la fecha que desees futura)
+        const targetDate = new Date(2027, 3, 5, 0, 0, 0).getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = targetDate - now;
 
+            // Lógica para evitar números negativos
+            if (diff <= 0) {
+                document.getElementById('contenedor-contador').style.display = 'none';
+                document.getElementById('mensaje-final').style.display = 'block';
+                return; 
+            }
+
+            // Cálculos de tiempo
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
 
+            // Actualización del DOM
             document.getElementById('days').innerText = d;
             document.getElementById('hours').innerText = h;
             document.getElementById('minutes').innerText = m;
             document.getElementById('seconds').innerText = s;
         }
 
+        // Ejecutar cada segundo
         setInterval(updateCountdown, 1000);
+        
+        // Ejecución inmediata para evitar el "salto" de 0 a la cifra real
         updateCountdown();
     </script>
 </body>
