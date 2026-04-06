@@ -26,12 +26,12 @@
             cursor: pointer; margin-top: 15px;
         }
         
-        /* FÍSICA DE PÉTALOS INQUEBRANTABLE */
+        /* --- ESTILO DE LOS CORAZONES CAYENDO (Inquebrantable) --- */
         .xp1 {
             position: absolute !important; /* Fuerza bruta de posición */
-            top: -20vh !important; /* Fuerza bruta de inicio ARRIBA */
-            background: #ff4081; 
-            border-radius: 50% 0 50% 50%; 
+            top: -15vh !important; /* Empiezan ARRIBA */
+            color: #e91e63; /* Color de los corazones */
+            font-family: Arial, sans-serif; /* Fuente estándar para emojis */
             opacity: 0; 
             pointer-events: none; 
             z-index: 1; 
@@ -46,9 +46,9 @@
                 transform: translateY(0vh) rotate(0deg); 
                 opacity: 0; 
             }
-            10% { opacity: 0.8; }
+            10% { opacity: 0.9; } /* Se vuelven visibles rápido */
             100% { 
-                /* Caen hasta el final de la pantalla */
+                /* Caen hasta abajo y rotan */
                 transform: translateY(130vh) rotate(360deg); 
                 opacity: 0; 
             }
@@ -98,23 +98,25 @@
 
         function xsh1() { document.getElementById('xmok1').style.display = 'block'; }
 
-        // GENERADOR DE LLUVIA INQUEBRANTABLE
+        // --- GENERADOR DE LLUVIA DE CORAZONES (Inquebrantable) ---
         function xrn1() {
             const xp = document.createElement('div');
             xp.className = 'xp1';
             
-            // Posición horizontal aleatoria
+            // Insertar el emoji del corazón
+            xp.innerHTML = '❤️';
+            
+            // Posición horizontal aleatoria (0 a 100% del ancho)
             xp.style.left = (Math.random() * 100) + "vw";
             
-            // Tamaño aleatorio y visible
-            const xs1 = Math.random() * 13 + 12;
-            xp.style.width = xs1 + "px";
-            xp.style.height = xs1 + "px";
+            // Tamaño aleatorio y visible (font-size entre 15 y 30px)
+            const xs1 = Math.random() * 15 + 15;
+            xp.style.fontSize = xs1 + "px";
             
-            // Duración lenta y aleatoria (entre 7 y 14 segundos)
-            xp.style.animationDuration = (Math.random() * 7 + 7) + "s";
+            // Duración lenta y aleatoria (entre 6 y 12 segundos)
+            xp.style.animationDuration = (Math.random() * 6 + 6) + "s";
             
-            // Retraso aleatorio
+            // Retraso aleatorio para dispersar la lluvia
             xp.style.animationDelay = (Math.random() * 5) + "s";
 
             document.body.appendChild(xp);
@@ -123,8 +125,8 @@
             setTimeout(() => xp.remove(), 20000);
         }
         
-        // Crear un pétalo cada 400ms
-        setInterval(xrn1, 400);
+        // Crear un corazón nuevo cada 350ms (un poco más rápido para más corazones)
+        setInterval(xrn1, 350);
     </script>
 </body>
 </html>
