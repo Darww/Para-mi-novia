@@ -3,130 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi novia ❤️</title>
+    <title>Para la mejor novia</title>
     <style>
-        :root { --c1: #d81b60; --b1: #fce4ec; }
-        body { 
-            background: linear-gradient(135deg, var(--b1) 0%, #f8bbd0 100%);
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; align-items: center; justify-content: center;
-            height: 100vh; margin: 0; color: var(--c1); text-align: center;
-            overflow: hidden; position: relative;
+        body {
+            background-color: #ffebf0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #d63384;
         }
-        .xbox1 { z-index: 100; position: relative; padding: 20px; }
-        .xuni1 { 
-            display: inline-block; margin: 8px; padding: 12px; 
-            background: rgba(255, 255, 255, 0.9); border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); min-width: 60px;
+        h1 { font-size: 1.5rem; margin-bottom: 20px; }
+        #countdown {
+            display: flex;
+            gap: 15px;
         }
-        span { font-size: 2rem; font-weight: bold; display: block; }
-        .xbtn1 {
-            background: var(--c1); color: white; border: none;
-            padding: 12px 25px; border-radius: 20px; font-size: 1.1rem;
-            cursor: pointer; margin-top: 15px;
+        .time-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            min-width: 60px;
+            text-align: center;
         }
-        
-        /* --- ESTILO DE LOS CORAZONES CAYENDO (Inquebrantable) --- */
-        .xp1 {
-            position: absolute !important; /* Fuerza bruta de posición */
-            top: -15vh !important; /* Empiezan ARRIBA */
-            color: #e91e63; /* Color de los corazones */
-            font-family: Arial, sans-serif; /* Fuente estándar para emojis */
-            opacity: 0; 
-            pointer-events: none; 
-            z-index: 1; 
-            
-            animation-name: xa1 !important; /* Fuerza bruta de animación */
-            animation-timing-function: linear;
-            animation-fill-mode: forwards; 
-        }
-        
-        @keyframes xa1 {
-            0% { 
-                transform: translateY(0vh) rotate(0deg); 
-                opacity: 0; 
-            }
-            10% { opacity: 0.9; } /* Se vuelven visibles rápido */
-            100% { 
-                /* Caen hasta abajo y rotan */
-                transform: translateY(130vh) rotate(360deg); 
-                opacity: 0; 
-            }
-        }
+        .number { font-size: 2rem; font-weight: bold; display: block; }
+        .label { font-size: 0.8rem; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div class="xbox1">
-        <div id="xcnt1">
-            <h1>Falta poco...</h1>
-            <div>
-                <div class="xuni1"><span id="d">0</span>Días</div>
-                <div class="xuni1"><span id="h">0</span>Hs</div>
-                <div class="xuni1"><span id="m">0</span>Min</div>
-                <div class="xuni1"><span id="s">0</span>Seg</div>
-            </div>
-        </div>
+    <h1>Faltan para nuestro aniversario:</h1>
 
-        <div id="xfin1" style="display:none;">
-            <h1>¡Llegó el día especial!</h1>
-            <button class="xbtn1" onclick="xsh1()">Abrir mi sorpresa</button>
-            <div id="xmok1" style="display:none; margin-top:20px;">
-                <p>Te amo mucho ❤️</p>
-                <img src="https://via.placeholder.com/100" style="border-radius:50%">
-            </div>
-        </div>
+    <div id="countdown">
+        <div class="time-box"><span class="number" id="days">0</span><span class="label">Días</span></div>
+        <div class="time-box"><span class="number" id="hours">0</span><span class="label">Hrs</span></div>
+        <div class="time-box"><span class="number" id="minutes">0</span><span class="label">Min</span></div>
+        <div class="time-box"><span class="number" id="seconds">0</span><span class="label">Seg</span></div>
     </div>
 
     <script>
-        // CONFIGURACIÓN DE FECHA (Cambia esto cuando termines las pruebas)
-        const xend1 = new Date('April 3, 2026 00:00:00').getTime();
+        // CAMBIA LA FECHA AQUÍ (Año, Mes - 1, Día)
+        // Ejemplo: 15 de Mayo de 2026 -> (2026, 4, 15)
+        const targetDate = new Date(2026, 4, 15).getTime();
 
-        setInterval(() => {
-            const xnow1 = new Date().getTime();
-            const xd1 = xend1 - xnow1;
-            if (xd1 <= 0) {
-                document.getElementById('xcnt1').style.display = 'none';
-                document.getElementById('xfin1').style.display = 'block';
-            } else {
-                document.getElementById('d').innerText = Math.floor(xd1 / 864e5);
-                document.getElementById('h').innerText = Math.floor((xd1 % 864e5) / 36e5);
-                document.getElementById('m').innerText = Math.floor((xd1 % 36e5) / 6e4);
-                document.getElementById('s').innerText = Math.floor((xd1 % 6e4) / 1000);
-            }
-        }, 1000);
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
 
-        function xsh1() { document.getElementById('xmok1').style.display = 'block'; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-        // --- GENERADOR DE LLUVIA DE CORAZONES (Inquebrantable) ---
-        function xrn1() {
-            const xp = document.createElement('div');
-            xp.className = 'xp1';
-            
-            // Insertar el emoji del corazón
-            xp.innerHTML = '❤️';
-            
-            // Posición horizontal aleatoria (0 a 100% del ancho)
-            xp.style.left = (Math.random() * 100) + "vw";
-            
-            // Tamaño aleatorio y visible (font-size entre 15 y 30px)
-            const xs1 = Math.random() * 15 + 15;
-            xp.style.fontSize = xs1 + "px";
-            
-            // Duración lenta y aleatoria (entre 6 y 12 segundos)
-            xp.style.animationDuration = (Math.random() * 6 + 6) + "s";
-            
-            // Retraso aleatorio para dispersar la lluvia
-            xp.style.animationDelay = (Math.random() * 5) + "s";
-
-            document.body.appendChild(xp);
-            
-            // Eliminar después de 20s para asegurar que terminó la animación
-            setTimeout(() => xp.remove(), 20000);
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('minutes').innerText = m;
+            document.getElementById('seconds').innerText = s;
         }
-        
-        // Crear un corazón nuevo cada 350ms (un poco más rápido para más corazones)
-        setInterval(xrn1, 350);
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
