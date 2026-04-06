@@ -2,51 +2,75 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Para mi novia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi novia ❤️</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #fff0f5; color: #d02090; }
-        #contador { font-size: 2rem; font-weight: bold; margin-top: 20px; }
-        .unidad { display: inline-block; margin: 10px; padding: 10px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        :root { --color-principal: #d81b60; --fondo: #fce4ec; }
+        body { 
+            background: linear-gradient(135deg, var(--fondo) 0%, #f8bbd0 100%);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; margin: 0; color: var(--color-principal); text-align: center;
+        }
+        .unidad { 
+            display: inline-block; margin: 10px; padding: 15px; 
+            background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            min-width: 70px;
+        }
+        span { font-size: 2.5rem; font-weight: bold; display: block; }
+        #mensaje-oculto { display: none; padding: 20px; animation: fadeIn 2s; }
+        .boton {
+            background: var(--color-principal); color: white; border: none;
+            padding: 15px 30px; border-radius: 25px; font-size: 1.2rem;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <h1>Cuenta regresiva para nuestro aniversario</h1>
-    
-    <div id="contador">
-        <div class="unidad"><span id="dias"></span><br>Días</div>
-        <div class="unidad"><span id="horas"></span><br>Hs</div>
-        <div class="unidad"><span id="minutos"></span><br>Min</div>
-        <div class="unidad"><span id="segundos"></span><br>Seg</div>
+    <div id="pantalla-contador">
+        <h1>Falta poco para nuestro momento...</h1>
+        <div id="timer">
+            <div class="unidad"><span id="d">0</span>Días</div>
+            <div class="unidad"><span id="h">0</span>Hs</div>
+            <div class="unidad"><span id="m">0</span>Min</div>
+            <div class="unidad"><span id="s">0</span>Seg</div>
+        </div>
+    </div>
+
+    <div id="pantalla-final" style="display:none;">
+        <h1>¡Llegó el día especial!</h1>
+        <button class="boton" onclick="revelar()">Abrir mi sorpresa</button>
+        <div id="mensaje-oculto">
+            <p style="font-size: 1.3rem;">Aquí va tu mensaje: "Te amo porque..."</p>
+            <img src="https://via.placeholder.com/150" alt="Nosotros" style="border-radius: 50%; margin-top: 20px;">
+        </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN: Cambia esta fecha por tu aniversario
-        const fechaObjetivo = new Date('May 15, 2026 00:00:00').getTime();
+        // CONFIGURACIÓN TÉCNICA
+        const fechaMeta = new Date('April 3, 2026 00:00:00').getTime();
 
-        const actualizarContador = setInterval(() => {
+        const check = setInterval(() => {
             const ahora = new Date().getTime();
-            const diferencia = fechaObjetivo - ahora;
+            const diff = fechaMeta - ahora;
 
-            // Cálculos matemáticos de tiempo
-            const d = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            // Inyectar en el HTML
-            document.getElementById('dias').innerText = d;
-            document.getElementById('horas').innerText = h;
-            document.getElementById('minutos').innerText = m;
-            document.getElementById('segundos').innerText = s;
-
-            // Si la fecha llega a cero
-            if (diferencia < 0) {
-                clearInterval(actualizarContador);
-                document.getElementById('contador').innerHTML = "¡Feliz Aniversario! ❤️";
+            if (diff <= 0) {
+                clearInterval(check);
+                document.getElementById('pantalla-contador').style.display = 'none';
+                document.getElementById('pantalla-final').style.display = 'block';
+            } else {
+                document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
             }
         }, 1000);
+
+        function revelar() {
+            document.getElementById('mensaje-oculto').style.display = 'block';
+        }
     </script>
 </body>
 </html>
-  
