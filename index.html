@@ -26,16 +26,36 @@
             cursor: pointer; margin-top: 15px;
         }
         
-        /* ESTILO DE LOS PÉTALOS */
+        /* --- FÍSICA DE LOS PÉTALOS CORREGIDA --- */
         .p_anim {
-            position: absolute; background: #ff4081;
-            border-radius: 50% 0 50% 50%; opacity: 0.7;
-            pointer-events: none; z-index: 1;
-            animation: fall linear forwards;
+            position: absolute; 
+            background: #ff4081; /* Rosa Intenso */
+            border-radius: 50% 0 50% 50%; /* Forma de pétalo */
+            opacity: 0; /* Empiezan invisibles */
+            pointer-events: none; 
+            z-index: 1; /* Por detrás del texto */
+            
+            /* Nombre de la animación, duración por defecto, tipo de curva, dirección */
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards; /* Se quedan con los valores finales */
         }
+        
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            0% { 
+                /* EMPIEZA: Fuera de pantalla arriba, sin rotar, invisible */
+                transform: translateY(-15vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% {
+                /* Se vuelven visibles rápido al entrar */
+                opacity: 0.8;
+            }
+            100% { 
+                /* TERMINA: Fuera de pantalla abajo, rotando 360 grados, invisible */
+                transform: translateY(115vh) rotate(360deg); 
+                opacity: 0; 
+            }
         }
     </style>
 </head>
@@ -63,7 +83,7 @@
     </div>
 
     <script>
-        // Cambia la fecha aquí para probar el botón (ej. una fecha pasada)
+        // CONFIGURACIÓN DE FECHA (Mantenemos abril para probar)
         const end = new Date('April 3, 2026 00:00:00').getTime();
 
         setInterval(() => {
@@ -82,18 +102,35 @@
 
         function show() { document.getElementById('m-ok').style.display = 'block'; }
 
-        // GENERADOR DE PÉTALOS
+        // --- GENERADOR DE LLUVIA DE PÉTALOS CORREGIDO ---
         function rain() {
             const p = document.createElement('div');
             p.className = 'p_anim';
-            p.style.left = Math.random() * 100 + "vw";
-            const size = (Math.random() * 10 + 10) + "px";
-            p.style.width = size;
-            p.style.height = size;
-            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            
+            // 1. Posición horizontal aleatoria (0 a 100% del ancho)
+            p.style.left = (Math.random() * 100) + "vw";
+            
+            // 2. Tamaño aleatorio pero visible (entre 12 y 25px)
+            const sizeValue = Math.random() * 13 + 12;
+            p.style.width = sizeValue + "px";
+            p.style.height = sizeValue + "px";
+            
+            // 3. Duración de la caída aleatoria y LENTA (entre 6 y 12 segundos)
+            // Esto hace que caigan desde arriba de verdad
+            const duration = (Math.random() * 6 + 6);
+            p.style.animationDuration = duration + "s";
+            
+            // 4. Retraso aleatorio para dispersar la lluvia
+            p.style.animationDelay = (Math.random() * 5) + "s";
+
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
+            
+            // Importante: Eliminar el pétalo DESPUÉS de que termine su animación lenta
+            // Usamos la duración máxima + el delay máximo (12 + 5 = 17s)
+            setTimeout(() => p.remove(), 17000);
         }
+        
+        // Crear un pétalo nuevo cada 400ms para mantener una lluvia constante
         setInterval(rain, 400);
     </script>
 </body>
