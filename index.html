@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Para mi novia</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #fff0f5; color: #d02090; }
+        #contador { font-size: 2rem; font-weight: bold; margin-top: 20px; }
+        .unidad { display: inline-block; margin: 10px; padding: 10px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <h1>Cuenta regresiva para nuestro aniversario</h1>
+    
+    <div id="contador">
+        <div class="unidad"><span id="dias"></span><br>Días</div>
+        <div class="unidad"><span id="horas"></span><br>Hs</div>
+        <div class="unidad"><span id="minutos"></span><br>Min</div>
+        <div class="unidad"><span id="segundos"></span><br>Seg</div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN: Cambia esta fecha por tu aniversario
+        const fechaObjetivo = new Date('May 15, 2026 00:00:00').getTime();
+
+        const actualizarContador = setInterval(() => {
+            const ahora = new Date().getTime();
+            const diferencia = fechaObjetivo - ahora;
+
+            // Cálculos matemáticos de tiempo
+            const d = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            // Inyectar en el HTML
+            document.getElementById('dias').innerText = d;
+            document.getElementById('horas').innerText = h;
+            document.getElementById('minutos').innerText = m;
+            document.getElementById('segundos').innerText = s;
+
+            // Si la fecha llega a cero
+            if (diferencia < 0) {
+                clearInterval(actualizarContador);
+                document.getElementById('contador').innerHTML = "¡Feliz Aniversario! ❤️";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+  
