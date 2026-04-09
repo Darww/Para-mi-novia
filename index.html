@@ -264,6 +264,124 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 .deco-float{position:absolute;font-size:2.5rem;opacity:.12;pointer-events:none;animation:floatDeco 7s ease-in-out infinite;}
 @keyframes floatDeco{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-18px) rotate(8deg);}}
 
+/* ── NAMES ── */
+.names-row{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:20px;
+  animation:fadeUp .6s ease both;
+}
+.name-left,.name-right{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(2.2rem,7vw,4.5rem);
+  color:white;
+  text-shadow:0 0 40px rgba(224,82,114,.5);
+  letter-spacing:1px;
+}
+.name-heart{
+  font-size:clamp(1.8rem,5vw,3rem);
+  color:var(--rose2);
+  animation:heartbeat 1.4s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1);}
+  15%    {transform:scale(1.35);}
+  30%    {transform:scale(1);}
+  45%    {transform:scale(1.2);}
+}
+
+/* ── PUZZLE ── */
+#sec-puzzle{background:linear-gradient(180deg,#1a0a10,#2a0e1a);}
+.puzzle-wrap{display:flex;flex-direction:column;align-items:center;gap:24px;}
+
+/* Preview thumbnail */
+.puzzle-preview{
+  width:120px;height:120px;border-radius:12px;
+  overflow:hidden;border:2px solid rgba(201,150,74,.35);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+  flex-shrink:0;
+}
+.puzzle-preview img,.puzzle-preview .prev-ph{width:100%;height:100%;object-fit:cover;display:block;}
+.prev-ph{background:linear-gradient(135deg,#2d1020,#4a1a2e);display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+
+.puzzle-meta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;}
+.puzzle-info{text-align:left;}
+.puzzle-info p{color:rgba(255,255,255,.5);font-style:italic;font-size:.9rem;line-height:1.6;}
+
+/* Difficulty selector */
+.diff-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;}
+.diff-btn{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50px;
+  padding:8px 20px;
+  color:rgba(255,255,255,.55);
+  font-family:'Cormorant Garamond',serif;
+  font-size:.9rem;font-style:italic;
+  cursor:pointer;transition:all .25s;
+}
+.diff-btn:hover,.diff-btn.active{
+  background:rgba(181,51,74,.3);
+  border-color:var(--rose2);
+  color:white;
+}
+
+/* Canvas board */
+.puzzle-board-wrap{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+  touch-action:none;
+}
+#puzzle-canvas{display:block;cursor:grab;}
+#puzzle-canvas:active{cursor:grabbing;}
+
+/* Tray of pieces */
+.piece-tray{
+  width:min(480px,95vw);
+  min-height:90px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;
+  padding:12px;
+  display:flex;flex-wrap:wrap;gap:8px;
+  justify-content:center;align-items:center;
+}
+
+/* Action buttons */
+.puzzle-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.p-btn{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.7);
+  border-radius:50px;padding:10px 24px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:.95rem;font-style:italic;
+  cursor:pointer;transition:all .3s;
+}
+.p-btn:hover{background:rgba(181,51,74,.3);color:white;border-color:var(--rose2);}
+.p-btn.primary{background:linear-gradient(135deg,var(--rose),var(--rose2));border-color:var(--rose2);color:white;box-shadow:0 4px 16px rgba(181,51,74,.35);}
+
+/* Progress bar puzzle */
+.puzzle-progress-wrap{width:min(480px,95vw);}
+.puzzle-progress-label{display:flex;justify-content:space-between;color:rgba(255,255,255,.3);font-size:.78rem;letter-spacing:2px;margin-bottom:6px;}
+.puzzle-progress-track{height:4px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;}
+.puzzle-progress-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--gold2));border-radius:4px;transition:width .4s ease;width:0%;}
+
+/* Win overlay */
+.puzzle-win{
+  display:none;text-align:center;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:40px 30px;
+  max-width:480px;
+}
+.puzzle-win.show{display:block;}
+.puzzle-win h3{font-family:'Dancing Script',cursive;color:white;font-size:clamp(2rem,6vw,3rem);margin-bottom:12px;text-shadow:0 0 30px rgba(224,82,114,.5);}
+.puzzle-win p{color:rgba(255,255,255,.6);font-style:italic;line-height:1.8;}
+
 /* Reveal on scroll */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease,transform .9s ease;}
 .reveal.vis{opacity:1;transform:translateY(0);}
@@ -349,6 +467,12 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
   <!-- HERO -->
   <section id="hero">
     <p class="hero-eyebrow">17 de Mayo · 2024 — 2026</p>
+    <!-- NOMBRES -->
+    <div class="names-row">
+      <span class="name-left">Johana</span>
+      <span class="name-heart">♥</span>
+      <span class="name-right">Darwin</span>
+    </div>
     <h1 class="hero-title">Dos años,<br><em>un amor eterno</em></h1>
     <p class="hero-sub">Cada segundo a tu lado es mi lugar favorito</p>
     <div class="hero-years">💕 &nbsp; II Aniversario &nbsp; 💕</div>
@@ -477,7 +601,73 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
     </div>
   </section>
 
-  <!-- FINAL -->
+  <!-- PUZZLE -->
+  <section class="sec" id="sec-puzzle">
+    <div class="sec-inner">
+      <p class="sec-eyebrow reveal">Mini juego 2</p>
+      <h2 class="sec-title reveal">Arma nuestro rompecabezas 🧩</h2>
+      <p class="sec-sub reveal">¿Puedes armar la foto de los dos? ¡Arrastra las piezas!</p>
+
+      <div class="puzzle-wrap reveal">
+
+        <!-- Preview + info -->
+        <div class="puzzle-meta">
+          <div class="puzzle-preview">
+            <!-- Reemplaza puzzle.jpg con tu foto real -->
+            <div class="prev-ph" id="prev-ph">📸</div>
+            <img id="puzzle-preview-img" src="puzzle.jpg" alt="preview"
+                 style="display:none" onload="this.style.display='block';document.getElementById('prev-ph').style.display='none'">
+          </div>
+          <div class="puzzle-info">
+            <p>Arrastra las piezas<br>al lugar correcto 💕<br><br>
+            <em>La foto: <strong style="color:var(--gold2)">puzzle.jpg</strong></em></p>
+          </div>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="diff-row">
+          <button class="diff-btn active" onclick="setDiff(2,this)">2×2 &nbsp;🌸 Fácil</button>
+          <button class="diff-btn"        onclick="setDiff(3,this)">3×3 &nbsp;💕 Normal</button>
+          <button class="diff-btn"        onclick="setDiff(4,this)">4×4 &nbsp;🔥 Difícil</button>
+        </div>
+
+        <!-- Progress -->
+        <div class="puzzle-progress-wrap">
+          <div class="puzzle-progress-label">
+            <span>Piezas colocadas</span>
+            <span id="pz-pct">0%</span>
+          </div>
+          <div class="puzzle-progress-track">
+            <div class="puzzle-progress-fill" id="pz-fill"></div>
+          </div>
+        </div>
+
+        <!-- Board canvas -->
+        <div class="puzzle-board-wrap" id="puzzle-board-wrap">
+          <canvas id="puzzle-canvas"></canvas>
+        </div>
+
+        <!-- Piece tray -->
+        <div class="piece-tray" id="piece-tray">
+          <span style="color:rgba(255,255,255,.2);font-style:italic;font-size:.9rem">Inicia el juego para ver las piezas</span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="puzzle-actions">
+          <button class="p-btn primary" onclick="startPuzzle()">▶ Iniciar / Reiniciar</button>
+          <button class="p-btn" onclick="solvePuzzle()">👁 Ver solución</button>
+        </div>
+
+        <!-- Win screen -->
+        <div class="puzzle-win" id="puzzle-win">
+          <h3>¡Lo lograste! 🎉</h3>
+          <p>Armaste nuestra foto perfectamente,<br>igual que tú armaste mi corazón 💕<br><br>
+          <em style="color:var(--gold2)">— Johana & Darwin 🌹</em></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
   <section class="sec" id="sec-final">
     <span class="deco-float" style="top:8%;left:4%">💕</span>
     <span class="deco-float" style="top:15%;right:6%;animation-delay:3s">🌸</span>
@@ -776,6 +966,261 @@ function toggleMusic(){
   const a=document.getElementById('bg-music');
   if(!playing){a.play().then(()=>{playing=true;document.getElementById('micon').textContent='⏸️';document.getElementById('mtxt').textContent='Pausar';}).catch(()=>{document.getElementById('mtxt').textContent='Sin archivo';});}
   else{a.pause();playing=false;document.getElementById('micon').textContent='🎵';document.getElementById('mtxt').textContent='Música';}
+}
+
+/* ─── PUZZLE ─── */
+const PZ = {
+  img: null, loaded: false,
+  cols: 2, rows: 2,
+  cw: 0, ch: 0,        // cell width / height
+  bw: 0, bh: 0,        // board pixel size
+  pieces: [],           // { col, row, x, y, correct }
+  dragging: null,
+  canvas: null, ctx: null,
+  BOARD_MAX: 480        // max board width in px
+};
+
+function setDiff(n, btn){
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  PZ.cols = PZ.rows = n;
+}
+
+function pzSize(){
+  const vw = Math.min(window.innerWidth - 48, PZ.BOARD_MAX);
+  PZ.bw = vw; PZ.bh = vw;   // square board
+  PZ.cw = vw / PZ.cols;
+  PZ.ch = vw / PZ.rows;
+}
+
+function loadPzImage(cb){
+  if(PZ.loaded){ cb(); return; }
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload  = ()=>{ PZ.img=img; PZ.loaded=true; cb(); };
+  img.onerror = ()=>{
+    // generate a gradient placeholder if no real image
+    const off = document.createElement('canvas');
+    off.width = off.height = 400;
+    const c = off.getContext('2d');
+    const g = c.createLinearGradient(0,0,400,400);
+    g.addColorStop(0,'#4a1a2e'); g.addColorStop(1,'#9b3c56');
+    c.fillStyle=g; c.fillRect(0,0,400,400);
+    c.fillStyle='rgba(255,255,255,.15)';
+    c.font='bold 48px serif'; c.textAlign='center'; c.textBaseline='middle';
+    c.fillText('Johana ♥ Darwin',200,180);
+    c.font='32px serif'; c.fillText('17.05.2024 — 2026',200,260);
+    const img2=new Image(); img2.src=off.toDataURL();
+    img2.onload=()=>{ PZ.img=img2; PZ.loaded=true; cb(); };
+  };
+  img.src = 'puzzle.jpg';
+}
+
+function startPuzzle(){
+  document.getElementById('puzzle-win').classList.remove('show');
+  pzSize();
+
+  const cv = document.getElementById('puzzle-canvas');
+  cv.width  = PZ.bw; cv.height = PZ.bh;
+  PZ.canvas = cv; PZ.ctx = cv.getContext('2d');
+
+  loadPzImage(()=>{
+    buildPieces();
+    drawBoard();
+    buildTray();
+    updatePzProgress();
+  });
+}
+
+function buildPieces(){
+  PZ.pieces = [];
+  for(let r=0;r<PZ.rows;r++){
+    for(let c=0;c<PZ.cols;c++){
+      PZ.pieces.push({
+        col:c, row:r,
+        x: c*PZ.cw, y: r*PZ.ch,   // current board position (snapped or floating)
+        correct: false,
+        onBoard: false
+      });
+    }
+  }
+  // shuffle tray order
+  PZ.pieces.sort(()=>Math.random()-.5);
+}
+
+function drawBoard(){
+  const ctx = PZ.ctx;
+  ctx.clearRect(0,0,PZ.bw,PZ.bh);
+
+  // Background grid
+  ctx.fillStyle='rgba(255,255,255,.04)';
+  ctx.fillRect(0,0,PZ.bw,PZ.bh);
+  for(let r=0;r<PZ.rows;r++){
+    for(let c=0;c<PZ.cols;c++){
+      ctx.strokeStyle='rgba(255,255,255,.08)';
+      ctx.lineWidth=1;
+      ctx.strokeRect(c*PZ.cw, r*PZ.ch, PZ.cw, PZ.ch);
+      // ghost hint
+      if(PZ.img){
+        ctx.save();
+        ctx.globalAlpha=0.12;
+        ctx.drawImage(PZ.img,
+          c*(PZ.img.width/PZ.cols), r*(PZ.img.height/PZ.rows),
+          PZ.img.width/PZ.cols, PZ.img.height/PZ.rows,
+          c*PZ.cw, r*PZ.ch, PZ.cw, PZ.ch);
+        ctx.restore();
+      }
+    }
+  }
+
+  // Draw placed pieces
+  for(const p of PZ.pieces){
+    if(!p.onBoard) continue;
+    drawPiece(p, p.col*PZ.cw, p.row*PZ.ch);
+  }
+
+  // Draw dragging piece on top
+  if(PZ.dragging){
+    const p = PZ.dragging;
+    ctx.save();
+    ctx.shadowColor='rgba(224,82,114,.6)';
+    ctx.shadowBlur=20;
+    drawPiece(p, p.dragX - PZ.cw/2, p.dragY - PZ.ch/2);
+    ctx.restore();
+  }
+}
+
+function drawPiece(p, dx, dy){
+  const ctx = PZ.ctx;
+  if(!PZ.img) return;
+  ctx.save();
+  // clip to cell rectangle
+  ctx.beginPath();
+  ctx.rect(dx, dy, PZ.cw, PZ.ch);
+  ctx.clip();
+  ctx.drawImage(PZ.img,
+    p.col*(PZ.img.width/PZ.cols), p.row*(PZ.img.height/PZ.rows),
+    PZ.img.width/PZ.cols, PZ.img.height/PZ.rows,
+    dx, dy, PZ.cw, PZ.ch);
+  // border
+  ctx.strokeStyle = p.correct ? 'rgba(111,207,111,.6)' : 'rgba(201,150,74,.4)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(dx+1, dy+1, PZ.cw-2, PZ.ch-2);
+  ctx.restore();
+}
+
+/* ── Tray ── */
+function buildTray(){
+  const tray = document.getElementById('piece-tray');
+  tray.innerHTML = '';
+  for(const p of PZ.pieces){
+    const cv = document.createElement('canvas');
+    const s  = Math.min(90, Math.floor(PZ.bw/PZ.cols * .9));
+    cv.width = cv.height = s;
+    cv.dataset.col = p.col; cv.dataset.row = p.row;
+    cv.style.cssText=`border-radius:8px;border:1px solid rgba(255,255,255,.1);cursor:grab;flex-shrink:0;touch-action:none;`;
+    const c = cv.getContext('2d');
+    if(PZ.img){
+      c.drawImage(PZ.img,
+        p.col*(PZ.img.width/PZ.cols), p.row*(PZ.img.height/PZ.rows),
+        PZ.img.width/PZ.cols, PZ.img.height/PZ.rows,
+        0,0,s,s);
+    }
+    // drag from tray
+    cv.addEventListener('mousedown', e=>trayPickup(e,p,cv));
+    cv.addEventListener('touchstart',e=>trayPickup(e,p,cv),{passive:false});
+    tray.appendChild(cv);
+    p.trayEl = cv;
+  }
+}
+
+/* ── Drag from tray ── */
+function trayPickup(e, p, cv){
+  e.preventDefault();
+  if(p.onBoard) return;
+  const rect = PZ.canvas.getBoundingClientRect();
+  const pt   = e.touches ? e.touches[0] : e;
+  p.dragX = pt.clientX - rect.left;
+  p.dragY = pt.clientY - rect.top;
+  PZ.dragging = p;
+  cv.style.opacity = '0.3';
+}
+
+/* ── Board events ── */
+function pzPointerMove(e){
+  if(!PZ.dragging) return;
+  e.preventDefault();
+  const rect = PZ.canvas.getBoundingClientRect();
+  const pt   = e.touches ? e.touches[0] : e;
+  PZ.dragging.dragX = pt.clientX - rect.left;
+  PZ.dragging.dragY = pt.clientY - rect.top;
+  drawBoard();
+}
+function pzPointerUp(e){
+  if(!PZ.dragging) return;
+  const p = PZ.dragging;
+  PZ.dragging = null;
+
+  // Snap to nearest cell
+  const snapCol = Math.round((p.dragX - PZ.cw/2) / PZ.cw);
+  const snapRow = Math.round((p.dragY - PZ.ch/2) / PZ.ch);
+  const sc = Math.max(0, Math.min(PZ.cols-1, snapCol));
+  const sr = Math.max(0, Math.min(PZ.rows-1, snapRow));
+
+  // Check if that cell is already occupied
+  const occupied = PZ.pieces.find(x=>x.onBoard && x.snapCol===sc && x.snapRow===sr);
+  if(occupied){ drawBoard(); return; }
+
+  p.snapCol = sc; p.snapRow = sr;
+  p.onBoard = true;
+  p.correct = (sc===p.col && sr===p.row);
+
+  if(p.trayEl) p.trayEl.style.display='none';
+  drawBoard();
+  updatePzProgress();
+
+  const done = PZ.pieces.filter(x=>x.onBoard).length;
+  if(done===PZ.pieces.length) onPuzzleWin();
+}
+
+// Attach board listeners
+document.addEventListener('DOMContentLoaded',()=>{
+  const cv = document.getElementById('puzzle-canvas');
+  cv.addEventListener('mousemove', pzPointerMove);
+  cv.addEventListener('mouseup',   pzPointerUp);
+  cv.addEventListener('touchmove', pzPointerMove, {passive:false});
+  cv.addEventListener('touchend',  pzPointerUp);
+});
+
+function updatePzProgress(){
+  const total  = PZ.pieces.length || 1;
+  const placed = PZ.pieces.filter(p=>p.onBoard).length;
+  const pct    = Math.round(placed/total*100);
+  document.getElementById('pz-fill').style.width = pct+'%';
+  document.getElementById('pz-pct').textContent  = pct+'%';
+}
+
+function onPuzzleWin(){
+  // Check all correct
+  const allOk = PZ.pieces.every(p=>p.correct);
+  if(allOk){
+    launchHearts(28);
+    document.getElementById('puzzle-win').classList.add('show');
+  }
+}
+
+function solvePuzzle(){
+  if(!PZ.img){ startPuzzle(); return; }
+  PZ.pieces.forEach(p=>{
+    p.onBoard=true; p.correct=true;
+    p.snapCol=p.col; p.snapRow=p.row;
+    if(p.trayEl) p.trayEl.style.display='none';
+  });
+  drawBoard(); updatePzProgress();
+  setTimeout(()=>{
+    launchHearts(20);
+    document.getElementById('puzzle-win').classList.add('show');
+  },400);
 }
 
 /* ─── SCROLL REVEAL ─── */
