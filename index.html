@@ -171,8 +171,92 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 
 .tap-hint{color:rgba(255,255,255,.3);font-style:italic;font-size:.95rem;animation:pulse 2s infinite;}
 
+/* Envelope close button */
+.env-close-btn{
+  display:none;
+  margin-top:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.6);
+  border-radius:50px;
+  padding:10px 28px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-style:italic;
+  cursor:pointer;
+  transition:all .3s;
+}
+.env-close-btn:hover{background:rgba(181,51,74,.3);color:white;border-color:var(--rose2);}
+.env-close-btn.visible{display:inline-flex;align-items:center;gap:8px;}
+
+/* ── GAME SECTION ── */
+#sec-game{background:linear-gradient(180deg,#2e0d1c,#1a0a10);}
+.game-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  padding:40px 32px;
+  max-width:600px;
+  margin:0 auto;
+  backdrop-filter:blur(10px);
+  text-align:center;
+}
+/* Score hearts */
+.score-row{display:flex;justify-content:center;gap:8px;margin-bottom:32px;flex-wrap:wrap;}
+.score-heart{font-size:1.6rem;transition:transform .3s;filter:grayscale(1);opacity:.3;}
+.score-heart.lit{filter:grayscale(0);opacity:1;animation:heartPop .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes heartPop{0%{transform:scale(0);}100%{transform:scale(1);}}
+
+/* Question */
+.q-number{font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);opacity:.6;margin-bottom:12px;}
+.q-text{font-family:'Playfair Display',serif;font-style:italic;color:white;font-size:clamp(1.1rem,3vw,1.4rem);line-height:1.5;margin-bottom:32px;min-height:80px;}
+
+/* Options */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.opt-btn{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:14px 16px;
+  color:rgba(255,255,255,.8);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-style:italic;
+  cursor:pointer;
+  transition:all .25s;
+  text-align:center;
+  line-height:1.3;
+}
+.opt-btn:hover:not(:disabled){background:rgba(181,51,74,.25);border-color:var(--rose2);color:white;transform:translateY(-2px);}
+.opt-btn.correct{background:rgba(80,180,80,.2)!important;border-color:#6fcf6f!important;color:#9fef9f!important;}
+.opt-btn.wrong  {background:rgba(181,51,74,.25)!important;border-color:var(--rose2)!important;color:var(--blush)!important;}
+.opt-btn:disabled{cursor:default;}
+
+/* Feedback */
+.q-feedback{min-height:48px;font-style:italic;font-size:1rem;color:var(--gold2);margin-bottom:20px;transition:opacity .3s;}
+
+/* Next button */
+.next-btn{
+  display:none;
+  background:linear-gradient(135deg,var(--rose),var(--rose2));
+  border:none;border-radius:50px;
+  padding:13px 36px;
+  color:white;font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-style:italic;
+  cursor:pointer;box-shadow:0 4px 20px rgba(181,51,74,.4);
+  transition:transform .2s;
+}
+.next-btn:hover{transform:scale(1.04);}
+.next-btn.show{display:inline-block;}
+
+/* Result */
+.game-result{display:none;text-align:center;}
+.game-result.show{display:block;}
+.result-title{font-family:'Dancing Script',cursive;font-size:clamp(2rem,6vw,3.5rem);color:white;margin-bottom:16px;text-shadow:0 0 40px rgba(224,82,114,.5);}
+.result-msg{color:rgba(255,255,255,.65);font-style:italic;font-size:1.1rem;line-height:1.8;margin-bottom:28px;}
+.replay-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:50px;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;cursor:pointer;transition:all .3s;}
+.replay-btn:hover{background:rgba(181,51,74,.3);color:white;}
+
 /* Final */
-#sec-final{background:linear-gradient(180deg,#2e0d1c,#3d0f22);text-align:center;padding:120px 24px;}
+#sec-final{background:linear-gradient(180deg,#1a0a10,#3d0f22);text-align:center;padding:120px 24px;}
 .final-big{font-family:'Dancing Script',cursive;font-size:clamp(3rem,9vw,6.5rem);color:white;text-shadow:0 0 80px rgba(224,82,114,.6);margin-bottom:20px;}
 .final-big em{color:var(--rose2);font-style:normal;}
 .final-body{max-width:600px;margin:0 auto 40px;color:rgba(255,255,255,.6);font-style:italic;font-size:clamp(1.05rem,2.5vw,1.35rem);line-height:1.9;}
@@ -359,6 +443,37 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
       </div>
 
       <p class="tap-hint reveal" id="tap-hint">💌 Toca para abrir</p>
+      <button class="env-close-btn" id="env-close-btn" onclick="closeEnvelope()">↩ Cerrar sobre</button>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="sec" id="sec-game">
+    <div class="sec-inner">
+      <p class="sec-eyebrow reveal">Mini juego</p>
+      <h2 class="sec-title reveal">¿Cuánto me conoces? 💕</h2>
+      <p class="sec-sub reveal">Responde estas preguntas... ¡a ver cuántas aciertas!</p>
+
+      <div class="game-box reveal">
+        <!-- Score hearts -->
+        <div class="score-row" id="score-row"></div>
+
+        <!-- Question area -->
+        <div id="game-playing">
+          <p class="q-number" id="q-number">Pregunta 1 de 6</p>
+          <p class="q-text"   id="q-text">Cargando...</p>
+          <div class="options-grid" id="options-grid"></div>
+          <p class="q-feedback" id="q-feedback"></p>
+          <button class="next-btn" id="next-btn" onclick="nextQuestion()">Siguiente →</button>
+        </div>
+
+        <!-- Result screen -->
+        <div class="game-result" id="game-result">
+          <div class="result-title" id="result-title">💕</div>
+          <p class="result-msg" id="result-msg"></p>
+          <button class="replay-btn" onclick="resetGame()">Jugar de nuevo 🔄</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -469,23 +584,173 @@ setInterval(tick,1000); tick();
    document.getElementById('phase-main').style.display = 'block';
 
 
-/* ─── ENVELOPE ─── */
+/* ─── ENVELOPE (open / close) ─── */
 let envOpen=false;
 function openEnvelope(){
-  if(envOpen)return; envOpen=true;
-  // Hide seal
-  document.getElementById('env-seal').style.opacity='0';
-  document.getElementById('env-seal').style.transform='translateX(-50%) scale(0)';
-  // Rotate SVG flap open
+  if(envOpen) return;
+  envOpen = true;
+  document.getElementById('env-seal').style.opacity = '0';
+  document.getElementById('env-seal').style.transform = 'translateX(-50%) scale(0)';
   document.getElementById('svg-flap').classList.add('open');
-  // Hide hint
-  document.getElementById('tap-hint').style.opacity='0';
-  // Slide letter up after flap animation
+  document.getElementById('tap-hint').style.opacity = '0';
   setTimeout(()=>{
     document.getElementById('env-letter').classList.add('out');
+    document.getElementById('env-close-btn').classList.add('visible');
     launchHearts(18);
   }, 900);
 }
+function closeEnvelope(){
+  envOpen = false;
+  document.getElementById('svg-flap').classList.remove('open');
+  document.getElementById('env-letter').classList.remove('out');
+  document.getElementById('env-close-btn').classList.remove('visible');
+  setTimeout(()=>{
+    document.getElementById('env-seal').style.opacity = '1';
+    document.getElementById('env-seal').style.transform = 'translateX(-50%) scale(1)';
+    document.getElementById('tap-hint').style.opacity = '1';
+  }, 700);
+}
+
+/* ─── ROMANTIC GAME ─── */
+// *** PERSONALIZA LAS PREGUNTAS Y RESPUESTAS AQUÍ ***
+const QUESTIONS = [
+  {
+    q: "¿Cuál fue el primer lugar al que fuimos juntos?",
+    opts: ["Al cine", "A un restaurante", "Al parque", "A casa de un amigo"],
+    ans: 0, // índice de la respuesta correcta (0 = primera opción)
+    msg: "¡Exacto! Ese día fue el comienzo de todo 🥹"
+  },
+  {
+    q: "¿Cuál es mi comida favorita?",
+    opts: ["Pizza", "Sushi", "Pasta", "Tacos"],
+    ans: 2,
+    msg: "¡Me conoces bien! 🍝"
+  },
+  {
+    q: "¿Qué canción asocio más con nosotros?",
+    opts: ["Perfect - Ed Sheeran", "All of Me - John Legend", "Tú - Morat", "Nuestra canción favorita"],
+    ans: 3,
+    msg: "¡Siempre que la escucho pienso en ti 🎵"
+  },
+  {
+    q: "¿Cuál es la cosa que más me gusta de ti?",
+    opts: ["Tu sonrisa", "Tu forma de ser", "Tu mirada", "Todo de ti"],
+    ans: 3,
+    msg: "¡No podía elegir solo una cosa! Todo en ti me encanta 💕"
+  },
+  {
+    q: "¿Cuántos días llevamos juntos aproximadamente?",
+    opts: ["365 días", "500 días", "730 días", "1000 días"],
+    ans: 2,
+    msg: "¡Dos años de aventuras juntos! 🎉"
+  },
+  {
+    q: "¿Qué es lo que más disfruto hacer contigo?",
+    opts: ["Ver películas", "Salir a caminar", "Solo estar contigo", "Cualquier cosa"],
+    ans: 2,
+    msg: "Con solo estar a tu lado ya soy feliz 🌹"
+  }
+];
+
+let qIndex = 0, score = 0, answered = false;
+
+function buildScoreHearts(){
+  const row = document.getElementById('score-row');
+  row.innerHTML = '';
+  for(let i=0;i<QUESTIONS.length;i++){
+    const h = document.createElement('span');
+    h.className = 'score-heart';
+    h.textContent = '💕';
+    h.id = 'sh-'+i;
+    row.appendChild(h);
+  }
+}
+
+function loadQuestion(){
+  answered = false;
+  const q = QUESTIONS[qIndex];
+  document.getElementById('q-number').textContent = `Pregunta ${qIndex+1} de ${QUESTIONS.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-feedback').textContent = '';
+  document.getElementById('next-btn').classList.remove('show');
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=> checkAnswer(i);
+    grid.appendChild(btn);
+  });
+}
+
+function checkAnswer(chosen){
+  if(answered) return;
+  answered = true;
+  const q = QUESTIONS[qIndex];
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if(chosen === q.ans){
+    btns[chosen].classList.add('correct');
+    score++;
+    document.getElementById('sh-'+qIndex).classList.add('lit');
+    document.getElementById('q-feedback').textContent = '✓ ' + q.msg;
+    launchHearts(6);
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    document.getElementById('q-feedback').textContent = '💌 La respuesta era: ' + q.opts[q.ans];
+  }
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex >= QUESTIONS.length){
+    showResult();
+  } else {
+    loadQuestion();
+  }
+}
+
+function showResult(){
+  document.getElementById('game-playing').style.display = 'none';
+  const res = document.getElementById('game-result');
+  res.classList.add('show');
+
+  const titles = ["¡Casi!", "¡Bien!", "¡Muy bien!", "¡Genial!", "¡Increíble!", "¡Perfecta!", "¡Me conoces de memoria! 💕"];
+  const msgs = [
+    "Tenemos que pasar más tiempo juntos 😄",
+    "¡Vas aprendiendo bien! Con el tiempo lo sabrás todo 😊",
+    "¡Nada mal! Me conoces bastante bien 💕",
+    "¡Wow! Me conoces muy bien, lo que me hace muy feliz 🥰",
+    "¡Eres increíble! Me conoces perfectamente 💖",
+    "¡6 de 6! Eres literalmente la persona que más me conoce en el mundo 🌹💕"
+  ];
+
+  const tier = Math.min(score, 6);
+  document.getElementById('result-title').textContent = '💕'.repeat(score) || '💔';
+  document.getElementById('result-msg').innerHTML =
+    `Acertaste <strong style="color:var(--gold2)">${score} de ${QUESTIONS.length}</strong><br><br>` +
+    (msgs[tier-1] || msgs[0]);
+
+  if(score >= 5) launchHearts(30);
+  else if(score >= 3) launchHearts(12);
+}
+
+function resetGame(){
+  qIndex = 0; score = 0; answered = false;
+  document.getElementById('game-playing').style.display = 'block';
+  document.getElementById('game-result').classList.remove('show');
+  buildScoreHearts();
+  loadQuestion();
+}
+
+// Init game
+buildScoreHearts();
+loadQuestion();
 
 /* ─── HEARTS ─── */
 const HEM=['💕','💖','💗','💓','🌹','✨','💫','🌸','🌺','🥂'];
