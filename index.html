@@ -150,12 +150,12 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 
 /* Letter card — sits below envelope, slides up */
 .env-letter{
-  width:300px;
-  max-height:320px;
+  width:min(320px, 90vw);
+  max-height:60vh;
   overflow-y:auto;
   background:white;
   border-radius:14px;
-  padding:28px 24px;
+  padding:28px 24px 24px;
   text-align:center;
   box-shadow:0 8px 40px rgba(0,0,0,.35);
   position:relative;
@@ -170,9 +170,21 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 }
 .env-letter::-webkit-scrollbar{width:4px;}
 .env-letter::-webkit-scrollbar-thumb{background:var(--blush);border-radius:4px;}
+.env-letter::-webkit-scrollbar-track{background:transparent;}
 .env-letter.out{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
-.env-letter h3{font-family:'Playfair Display',serif;color:var(--rose);font-style:italic;font-size:1.25rem;margin-bottom:12px;}
-.env-letter p{color:#3d1a24;font-size:.88rem;line-height:1.9;}
+.env-letter h3{font-family:'Playfair Display',serif;color:var(--rose);font-style:italic;font-size:1.25rem;margin-bottom:14px;position:sticky;top:0;background:white;padding-bottom:8px;z-index:1;}
+.env-letter p{color:#3d1a24;font-size:.9rem;line-height:2;margin-bottom:0;}
+/* Fade hint at bottom so user knows to scroll */
+.env-letter::after{
+  content:'';
+  position:sticky;
+  bottom:0;
+  display:block;
+  height:28px;
+  background:linear-gradient(transparent, white);
+  pointer-events:none;
+  margin-top:-28px;
+}
 
 .tap-hint{color:rgba(255,255,255,.3);font-style:italic;font-size:.95rem;animation:pulse 2s infinite;}
 
@@ -567,7 +579,7 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
             Hoy, en nuestro segundo aniversario, quiero que sepas que te elijo a ti. Ayer, hoy y todos los días que vengan.<br><br>
             <em>Te amo más de lo que las palabras pueden decir.</em>
           </p>
-          <p style="margin-top:14px;color:var(--rose);font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;">— Darwin 🌹</p>
+          <p style="margin-top:16px;color:var(--rose);font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;position:sticky;bottom:0;background:white;padding-top:8px;">— Darwin 🌹</p>
         </div>
       </div>
 
@@ -772,12 +784,12 @@ document.getElementById('unlock-btn').addEventListener('click',openSurprise);
 setInterval(tick,1000); tick();
 
 /* ─── PARA PROBAR LA FASE 2 SIN ESPERAR LA FECHA ───
-   Descomenta las 3 líneas de abajo para ver todo el contenido ahora mismo:
-*/
+   Descomenta las 3 líneas de abajo para ver todo el contenido ahora mismo:*/
 
    unlocked = true;
    document.getElementById('phase-countdown').style.display = 'none';
    document.getElementById('phase-main').style.display = 'block';
+
 
 /* ─── ENVELOPE (open / close) ─── */
 let envOpen=false;
