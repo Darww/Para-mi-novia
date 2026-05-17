@@ -264,11 +264,59 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 .next-btn:hover{transform:scale(1.04);}
 .next-btn.show{display:inline-block;}
 
-/* Result */
-.game-result{display:none;text-align:center;}
-.game-result.show{display:block;}
-.result-title{font-family:'Dancing Script',cursive;font-size:clamp(2rem,6vw,3.5rem);color:white;margin-bottom:16px;text-shadow:0 0 40px rgba(224,82,114,.5);}
-.result-msg{color:rgba(255,255,255,.65);font-style:italic;font-size:1.1rem;line-height:1.8;margin-bottom:28px;}
+/* Prize heart */
+.prize-heart{
+  position:relative;
+  margin:0 auto 28px;
+  max-width:340px;
+}
+.prize-heart-icon{
+  font-size:5rem;
+  animation:heartbeat 1.4s ease-in-out infinite;
+  margin-bottom:16px;
+  display:block;
+}
+.prize-heart-bg{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, rgba(224,82,114,.15), transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.prize-msg{
+  background:linear-gradient(135deg, rgba(181,51,74,.15), rgba(201,150,74,.1));
+  border:1px solid rgba(224,82,114,.25);
+  border-radius:20px;
+  padding:28px 24px;
+  position:relative;
+  overflow:hidden;
+}
+.prize-msg::before{
+  content:'❝';
+  position:absolute;
+  top:-10px; left:12px;
+  font-size:5rem;
+  color:rgba(224,82,114,.1);
+  font-family:'Playfair Display',serif;
+  line-height:1;
+}
+.prize-msg h3{
+  font-family:'Dancing Script',cursive;
+  color:white;
+  font-size:clamp(1.6rem,5vw,2.2rem);
+  margin-bottom:14px;
+  text-shadow:0 0 20px rgba(224,82,114,.4);
+}
+.prize-msg p{
+  color:rgba(255,255,255,.7);
+  font-style:italic;
+  font-size:.95rem;
+  line-height:1.9;
+}
+.prize-msg em{
+  color:var(--gold2);
+  font-size:1.05rem;
+}
 .replay-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:50px;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;cursor:pointer;transition:all .3s;}
 .replay-btn:hover{background:rgba(181,51,74,.3);color:white;}
 
@@ -610,8 +658,21 @@ body{background:var(--deep);font-family:'Cormorant Garamond',serif;overflow-x:hi
 
         <!-- Result screen -->
         <div class="game-result" id="game-result">
-          <div class="result-title" id="result-title">💕</div>
-          <p class="result-msg" id="result-msg"></p>
+          <div class="prize-heart">
+            <div class="prize-heart-icon">💕</div>
+            <div class="prize-msg">
+              <h3>¡Lo lograste, mi amor! 🎉</h3>
+              <p>
+                Demostraste que me conoces de verdad...<br><br>
+                Johana, desde el día que nos conocimos en la escuela
+                hasta ese mirador donde robaste mi corazón con ese beso,
+                cada momento contigo ha sido el más bonito de mi vida.<br><br>
+                Eres la respuesta correcta a todas mis preguntas,
+                el premio más grande que me ha dado la vida.<br><br>
+                <em>Te amo hoy, mañana y siempre. 🌹</em>
+              </p>
+            </div>
+          </div>
           <button class="replay-btn" onclick="resetGame()">Jugar de nuevo 🔄</button>
         </div>
       </div>
@@ -788,8 +849,8 @@ setInterval(tick,1000); tick();
 
    unlocked = true;
    document.getElementById('phase-countdown').style.display = 'none';
-   document.getElementById('phase-main').style.display = 'block';*/
-
+   document.getElementById('phase-main').style.display = 'block';
+*/
 
 /* ─── ENVELOPE (open / close) ─── */
 let envOpen=false;
@@ -819,75 +880,57 @@ function closeEnvelope(){
 }
 
 /* ─── ROMANTIC GAME ─── */
-// *** PERSONALIZA LAS PREGUNTAS Y RESPUESTAS AQUÍ ***
 const QUESTIONS = [
   {
-    q: "¿Cuál fue el primer lugar al que fuimos juntos?",
-    opts: ["Al cine", "A un restaurante", "Al parque", "A casa de un amigo"],
-    ans: 0, // índice de la respuesta correcta (0 = primera opción)
-    msg: "¡Exacto! Ese día fue el comienzo de todo 🥹"
+    q: "¿Cuál fue el primer lugar donde salimos juntos?",
+    opts: ["El parque", "El mirador", "El cine", "Un restaurante"],
+    ans: 1,
+    msg: "¡Sí! Ese mirador fue el inicio de todo 🌅💕"
   },
   {
-    q: "¿Cuál es mi comida favorita?",
-    opts: ["Pizza", "Sushi", "Pasta", "Tacos"],
+    q: "¿Dónde nos conocimos por primera vez?",
+    opts: ["En una fiesta", "Por redes sociales", "En la escuela", "Por un amigo en común"],
     ans: 2,
-    msg: "¡Me conoces bien! 🍝"
+    msg: "¡Exacto! Desde ese día supe que eras especial 🥹"
   },
   {
-    q: "¿Qué canción asocio más con nosotros?",
-    opts: ["Perfect - Ed Sheeran", "All of Me - John Legend", "Tú - Morat", "Nuestra canción favorita"],
+    q: "¿Qué es lo que más me gusta de ti?",
+    opts: ["Tu cabello", "Tu forma de reír", "Tus ojos", "Tus labios"],
     ans: 3,
-    msg: "¡Siempre que la escucho pienso en ti 🎵"
-  },
-  {
-    q: "¿Cuál es la cosa que más me gusta de ti?",
-    opts: ["Tu sonrisa", "Tu forma de ser", "Tu mirada", "Todo de ti"],
-    ans: 3,
-    msg: "¡No podía elegir solo una cosa! Todo en ti me encanta 💕"
-  },
-  {
-    q: "¿Cuántos días llevamos juntos aproximadamente?",
-    opts: ["365 días", "500 días", "730 días", "1000 días"],
-    ans: 2,
-    msg: "¡Dos años de aventuras juntos! 🎉"
-  },
-  {
-    q: "¿Qué es lo que más disfruto hacer contigo?",
-    opts: ["Ver películas", "Salir a caminar", "Solo estar contigo", "Cualquier cosa"],
-    ans: 2,
-    msg: "Con solo estar a tu lado ya soy feliz 🌹"
+    msg: "¡Probar esos ricos labios fue lo mejor que me ha pasado! 😘🌹"
   }
 ];
 
-let qIndex = 0, score = 0, answered = false;
+let qIndex = 0, answered = false, failed = false;
 
 function buildScoreHearts(){
   const row = document.getElementById('score-row');
   row.innerHTML = '';
-  for(let i=0;i<QUESTIONS.length;i++){
+  for(let i = 0; i < QUESTIONS.length; i++){
     const h = document.createElement('span');
     h.className = 'score-heart';
     h.textContent = '💕';
-    h.id = 'sh-'+i;
+    h.id = 'sh-' + i;
     row.appendChild(h);
   }
 }
 
 function loadQuestion(){
-  answered = false;
+  answered = false; failed = false;
   const q = QUESTIONS[qIndex];
   document.getElementById('q-number').textContent = `Pregunta ${qIndex+1} de ${QUESTIONS.length}`;
   document.getElementById('q-text').textContent = q.q;
   document.getElementById('q-feedback').textContent = '';
+  document.getElementById('q-feedback').style.color = 'var(--gold2)';
   document.getElementById('next-btn').classList.remove('show');
 
   const grid = document.getElementById('options-grid');
   grid.innerHTML = '';
-  q.opts.forEach((opt, i)=>{
+  q.opts.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn';
     btn.textContent = opt;
-    btn.onclick = ()=> checkAnswer(i);
+    btn.onclick = () => checkAnswer(i);
     grid.appendChild(btn);
   });
 }
@@ -900,17 +943,30 @@ function checkAnswer(chosen){
   btns.forEach(b => b.disabled = true);
 
   if(chosen === q.ans){
+    // ✅ CORRECT
     btns[chosen].classList.add('correct');
-    score++;
-    document.getElementById('sh-'+qIndex).classList.add('lit');
+    document.getElementById('sh-' + qIndex).classList.add('lit');
     document.getElementById('q-feedback').textContent = '✓ ' + q.msg;
+    document.getElementById('q-feedback').style.color = 'var(--gold2)';
     launchHearts(6);
+    document.getElementById('next-btn').classList.add('show');
   } else {
+    // ❌ WRONG — show message and restart after 2.5s
     btns[chosen].classList.add('wrong');
     btns[q.ans].classList.add('correct');
-    document.getElementById('q-feedback').textContent = '💌 La respuesta era: ' + q.opts[q.ans];
+    const fb = document.getElementById('q-feedback');
+    fb.style.color = '#f08080';
+    fb.innerHTML = '😅 ¡Uy, eso no es! Volvamos a empezar desde el principio...';
+
+    // Reset hearts
+    document.querySelectorAll('.score-heart').forEach(h => h.classList.remove('lit'));
+
+    setTimeout(() => {
+      qIndex = 0;
+      buildScoreHearts();
+      loadQuestion();
+    }, 2500);
   }
-  document.getElementById('next-btn').classList.add('show');
 }
 
 function nextQuestion(){
@@ -926,29 +982,11 @@ function showResult(){
   document.getElementById('game-playing').style.display = 'none';
   const res = document.getElementById('game-result');
   res.classList.add('show');
-
-  const titles = ["¡Casi!", "¡Bien!", "¡Muy bien!", "¡Genial!", "¡Increíble!", "¡Perfecta!", "¡Me conoces de memoria! 💕"];
-  const msgs = [
-    "Tenemos que pasar más tiempo juntos 😄",
-    "¡Vas aprendiendo bien! Con el tiempo lo sabrás todo 😊",
-    "¡Nada mal! Me conoces bastante bien 💕",
-    "¡Wow! Me conoces muy bien, lo que me hace muy feliz 🥰",
-    "¡Eres increíble! Me conoces perfectamente 💖",
-    "¡6 de 6! Eres literalmente la persona que más me conoce en el mundo 🌹💕"
-  ];
-
-  const tier = Math.min(score, 6);
-  document.getElementById('result-title').textContent = '💕'.repeat(score) || '💔';
-  document.getElementById('result-msg').innerHTML =
-    `Acertaste <strong style="color:var(--gold2)">${score} de ${QUESTIONS.length}</strong><br><br>` +
-    (msgs[tier-1] || msgs[0]);
-
-  if(score >= 5) launchHearts(30);
-  else if(score >= 3) launchHearts(12);
+  launchHearts(35);
 }
 
 function resetGame(){
-  qIndex = 0; score = 0; answered = false;
+  qIndex = 0; answered = false; failed = false;
   document.getElementById('game-playing').style.display = 'block';
   document.getElementById('game-result').classList.remove('show');
   buildScoreHearts();
